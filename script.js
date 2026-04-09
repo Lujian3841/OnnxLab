@@ -1,12 +1,29 @@
 async function runInference() {
     const statusElement = document.getElementById('prediction-text');
-    statusElement.innerText = "Processing...";
+    statusElement.innerText = "Locating model files...";
 
     try {
-        // Create an ONNX session
-       const modelUrl = './DL_Net_New_model_opset18.onnx';
-        const dataUrl = './DL_Net_New_model_opset18.onnx.data';
-        // Collect and format inputs based on the CSV structure
+        // 1. Get the current folder path automatically
+        const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+        const modelUrl = baseUrl + 'DL_Net_New_model_opset18.onnx';
+        const dataUrl = baseUrl + 'DL_Net_New_model_opset18.onnx.data';
+
+        console.log("Attempting to load model from:", modelUrl);
+
+        // 2. Load the session
+        // Note: 'externalData' is required because your model has a separate .data file
+        const session = await ort.InferenceSession.create(modelUrl, {
+            externalData: [
+                {
+                    path: "DL_Net_New_model_opset18.onnx.data", // Internal name the model looks for
+                    data: dataUrl // External URL where it is actually hosted
+                }
+            ]
+        });
+
+        statusElement.innerText = "Model Loaded! Calculating...";
+
+        // 3. Prepare Inputs (same as before)
         const inputs = [
             parseFloat(document.getElementById('age').value),
             parseFloat(document.getElementById('gender').value),
@@ -22,22 +39,20 @@ async function runInference() {
             parseFloat(document.getElementById('addiction').value)
         ];
 
-        // Prepare the tensor (assuming the model expects shape [1, 12])
         const inputTensor = new ort.Tensor('float32', new Float32Array(inputs), [1, 12]);
         
-        // Run the model
-        const feeds = { input1: inputTensor }; // 'input1' is the name from the model metadata
+        // IMPORTANT: If 'input1' doesn't work, try just 'input' or 'float_input'
+        const feeds = { "input1": inputTensor }; 
         const results = await session.run(feeds);
         
-        // Get output (index 0 for non-depressed, index 1 for depressed)
         const output = results[Object.keys(results)[0]].data;
-        const prediction = output[0] > 0.5 ? "Positive (Depression Indicated)" : "Negative (No Depression Indicated)";
-
-        statusElement.innerText = prediction;
-        statusElement.style.color = output[0] > 0.5 ? "#e74c3c" : "#27ae60";
+        const isDepressed = output[0] > 0.5;
+        
+        statusElement.innerText = isDepressed ? "Depression Indicated" : "No Depression Indicated";
+        statusElement.style.color = isDepressed ? "#e74c3c" : "#27ae60";
 
     } catch (e) {
-        console.error(e);
-        statusElement.innerText = "Error running model. Check console.";
+        console.error("Full Error Object:", e);
+        statusElement.innerText = "Error: " + e.message;
     }
 }
