@@ -23,22 +23,29 @@ async function runInference() {
 
         statusElement.innerText = "Model Loaded! Calculating...";
 
-        // 3. Prepare Inputs (same as before)
-        const inputs = [
-            parseFloat(document.getElementById('age').value),
-            parseFloat(document.getElementById('gender').value),
-            parseFloat(document.getElementById('social_media').value),
-            parseFloat(document.getElementById('platform').value),
-            parseFloat(document.getElementById('sleep').value),
-            parseFloat(document.getElementById('screen_time').value),
-            parseFloat(document.getElementById('academic').value),
-            parseFloat(document.getElementById('physical').value),
-            parseFloat(document.getElementById('social_interaction').value),
-            parseFloat(document.getElementById('stress').value),
-            parseFloat(document.getElementById('anxiety').value),
-            parseFloat(document.getElementById('addiction').value)
-        ];
+  // ... inside runInference function ...
 
+const inputs = [
+    parseFloat(document.getElementById('age').value),
+    parseFloat(document.getElementById('gender').value),
+    parseFloat(document.getElementById('social_media').value),
+    parseFloat(document.getElementById('platform').value),
+    parseFloat(document.getElementById('sleep').value),
+    parseFloat(document.getElementById('screen_time').value),
+    parseFloat(document.getElementById('academic').value),
+    parseFloat(document.getElementById('physical').value),
+    parseFloat(document.getElementById('social_interaction').value),
+    parseFloat(document.getElementById('stress').value),
+    parseFloat(document.getElementById('anxiety').value),
+    parseFloat(document.getElementById('addiction').value),
+    0, // Placeholder 13 (Fixes the "Expected 14" error)
+    0  // Placeholder 14 (Fixes the "Expected 14" error)
+];
+
+// Update the tensor shape to [1, 14]
+const inputTensor = new ort.Tensor('float32', new Float32Array(inputs), [1, 14]);
+
+// ... rest of the code remains the same ...
         const inputTensor = new ort.Tensor('float32', new Float32Array(inputs), [1, 12]);
         
         // IMPORTANT: If 'input1' doesn't work, try just 'input' or 'float_input'
