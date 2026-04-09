@@ -54,7 +54,7 @@ async function runInference() {
 
         // A score > 0.5 usually means positive (Depressed)
         // If it's ALWAYS positive, the threshold in your specific model might be different (e.g., 0.0)
-        const isDepressed = score > 0.5;
+        const isDepressed = score > 0.8;
         
         statusElement.innerText = isDepressed ? "Result: Depression Indicated" : "Result: No Depression Indicated";
         statusElement.style.color = isDepressed ? "#e74c3c" : "#27ae60";
