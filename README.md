@@ -1,44 +1,54 @@
 # ONNX Lab
 
-This repository is for experimenting with ONNX model export and machine learning deployment concepts.
+A machine learning lab focused on model export, portability, and deployment concepts using ONNX.
 
-## Project Overview
+## Overview
 
-ONNX is commonly used to move machine learning models between frameworks and deployment environments. This lab is meant to document the process of building or training a model, exporting it to ONNX, and validating that the exported model can still run correctly.
+This repository documents experiments with exporting a machine learning model into the ONNX format and validating that the exported model can still be used for inference. The goal is to learn the bridge between model development and model deployment.
+
+ONNX is useful because it allows models to be represented in a framework-neutral format. That makes it easier to move models between tools and prepare them for production-style inference workflows.
 
 ## Skills Demonstrated
 
-- Machine learning model workflow
-- Model export concepts
+- Machine learning workflow fundamentals
+- Model export and portability concepts
 - ONNX experimentation
 - Python-based ML tooling
-- Testing and validation mindset
-- Documentation of technical lab work
+- Inference validation
+- Reproducible technical documentation
 
-## Why This Matters
+## Why This Project Matters
 
-For employers, this project can show that I am learning not only how to train models, but also how to think about portability, deployment, and reproducibility.
+Training a model is only part of the machine learning lifecycle. A model also needs to be saved, exported, tested, and prepared for use outside the original training notebook or script. This lab demonstrates that deployment-focused thinking.
 
-## Suggested Repository Structure
+## Suggested Workflow
+
+1. Train or load a small machine learning model.
+2. Export the model to ONNX format.
+3. Load the ONNX model in an inference runtime.
+4. Compare predictions before and after export.
+5. Document any compatibility issues or limitations.
+
+## Recommended Repository Structure
 
 ```text
 .
 ├── README.md
-├── notebooks/
-├── src/
-├── models/
-└── examples/
+├── notebooks/      # Experiment notebooks
+├── src/            # Reusable Python scripts
+├── models/         # Local model outputs, not all should be committed
+└── examples/       # Sample inputs and outputs
 ```
-
-## Future Improvements
-
-- Add the exact model used
-- Add setup instructions
-- Add export commands
-- Add inference test instructions
-- Add screenshots or sample output
-- Add a short explanation of what ONNX is and why it is useful
 
 ## Portfolio Notes
 
-This repository has potential for AI/ML-adjacent roles, but it should be cleaned up with clear code organization, requirements, and examples before being pinned on a GitHub profile.
+This repository is a good supporting project for AI/ML-adjacent roles. It shows interest in practical model deployment rather than only training models. Before pinning it, the next best improvement would be adding one complete example with setup steps, export commands, and sample inference output.
+
+## Future Improvements
+
+- Add exact model and dataset details
+- Add `requirements.txt`
+- Add export script
+- Add inference test script
+- Add screenshots or sample terminal output
+- Add notes about ONNX limitations or conversion errors
